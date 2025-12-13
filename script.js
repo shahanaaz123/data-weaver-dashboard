@@ -1,31 +1,34 @@
-const weatherData = {
-  labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-  temperatures: [32, 30, 28, 27, 26]
-};
+document.addEventListener("DOMContentLoaded", () => {
+  const ctx = document.getElementById("orderChart").getContext("2d");
 
-const orderData = {
-  labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-  orders: [120, 150, 180, 200, 230]
-};
+  const weatherData = [30, 32, 35, 33, 31]; // Temperature
+  const ordersData = [120, 150, 180, 160, 140]; // Orders
 
-new Chart(document.getElementById("weatherChart"), {
-  type: "line",
-  data: {
-    labels: weatherData.labels,
-    datasets: [{
-      label: "Temperature (°C)",
-      data: weatherData.temperatures
-    }]
-  }
-});
-
-new Chart(document.getElementById("orderChart"), {
-  type: "bar",
-  data: {
-    labels: orderData.labels,
-    datasets: [{
-      label: "Food Orders",
-      data: orderData.orders
-    }]
-  }
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+      datasets: [
+        {
+          label: "Temperature (°C)",
+          data: weatherData,
+          borderWidth: 2
+        },
+        {
+          label: "Food Orders",
+          data: ordersData,
+          borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: "Weather vs Food Orders"
+        }
+      }
+    }
+  });
 });
