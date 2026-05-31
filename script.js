@@ -32,3 +32,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 });
+options: {
+  responsive: true,
+  plugins: {
+    title: {
+      display: true,
+      text: "Weather vs Food Orders Analysis"
+    }
+  }
+}
