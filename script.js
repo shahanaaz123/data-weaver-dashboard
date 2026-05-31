@@ -1,34 +1,40 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const ctx = document.getElementById("orderChart").getContext("2d");
+const labels = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
-  const weatherData = [30, 32, 35, 33, 31]; // Temperature
-  const ordersData = [120, 150, 180, 160, 140]; // Orders
+const temperature = [30, 35, 40, 38, 36];
+const orders = [120, 150, 200, 180, 160];
 
-  new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-      datasets: [
-        {
-          label: "Temperature (°C)",
-          data: weatherData,
-          borderWidth: 2
-        },
-        {
-          label: "Food Orders",
-          data: ordersData,
-          borderWidth: 2
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: "Weather vs Food Orders"
-        }
+// Line Chart
+new Chart(document.getElementById("lineChart"), {
+  type: "line",
+  data: {
+    labels: labels,
+    datasets: [
+      {
+        label: "Temperature (°C)",
+        data: temperature,
+        borderColor: "blue",
+        fill: false
+      },
+      {
+        label: "Food Orders",
+        data: orders,
+        borderColor: "red",
+        fill: false
       }
-    }
-  });
+    ]
+  }
+});
+
+// Bar Chart
+new Chart(document.getElementById("barChart"), {
+  type: "bar",
+  data: {
+    labels: labels,
+    datasets: [
+      {
+        label: "Food Orders",
+        data: orders,
+      }
+    ]
+  }
 });
