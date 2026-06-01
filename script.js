@@ -15,19 +15,54 @@ document.addEventListener("DOMContentLoaded", function () {
         {
           label: "Temperature (°C)",
           data: temperature,
-          borderColor: "blue",
-          fill: false
+          borderColor: "#00c6ff",
+          backgroundColor: "rgba(0,198,255,0.2)",
+          tension: 0.4,
+          fill: true,
+          pointBackgroundColor: "#fff",
+          pointRadius: 5
         },
         {
           label: "Food Orders",
           data: orders,
-          borderColor: "red",
-          fill: false
+          borderColor: "#ff6a00",
+          backgroundColor: "rgba(255,106,0,0.2)",
+          tension: 0.4,
+          fill: true,
+          pointBackgroundColor: "#fff",
+          pointRadius: 5
         }
       ]
     },
     options: {
-      responsive: true
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            color: "white"
+          }
+        },
+        title: {
+          display: true,
+          text: "Weather vs Food Orders Analysis",
+          color: "white",
+          font: {
+            size: 18
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: "white"
+          }
+        },
+        y: {
+          ticks: {
+            color: "white"
+          }
+        }
+      }
     }
   });
 
