@@ -1,25 +1,26 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-  const apiKey = "095ac742e60846f5ff0f1fdb14a6a356"; 
-  let chart;
+  const apiKey = "095ac742e60846f5ff0f1fdb14a6a356";
 
-  window.getWeather = async function () {
+let chart;
 
-    const city = document.getElementById("cityInput").value;
+function getWeather() {
 
-    if (!city) {
-      alert("Enter a city name!");
-      return;
-    }
+  const city = document.getElementById("cityInput").value;
 
-    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city},IN&appid=${apiKey}&units=metric`;
+  if (!city) {
+    alert("Enter city");
+    return;
+  }
 
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city},IN&appid=${apiKey}&units=metric`;
+
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
 
       if (data.cod != 200) {
-        alert("City not found!");
+        alert("City not found");
         return;
       }
 
@@ -27,38 +28,25 @@ document.addEventListener("DOMContentLoaded", function () {
       const temperature = [];
       const orders = [];
 
-      // 🔥 Collect data
       for (let i = 0; i < 5; i++) {
         const item = data.list[i];
 
         labels.push(item.dt_txt.split(" ")[0]);
         temperature.push(item.main.temp);
-        orders.push(Math.floor(item.main.temp * 5 + Math.random() * 50));
+        orders.push(Math.floor(item.main.temp * 5));
       }
 
-      // 🔥 CALCULATIONS (cards)
-      const avgTemp =
-        temperature.reduce((a, b) => a + b, 0) / temperature.length;
+      // cards
+      const avgTemp = temperature.reduce((a, b) => a + b, 0) / temperature.length;
+      const totalOrders = orders.reduce((a, b) => a + b, 0);
+      const peakDay = labels[orders.indexOf(Math.max(...orders))];
 
-      const totalOrders =
-        orders.reduce((a, b) => a + b, 0);
+      document.getElementById("avgTemp").innerText = avgTemp.toFixed(1);
+      document.getElementById("totalOrders").innerText = totalOrders;
+      document.getElementById("peakDay").innerText = peakDay;
 
-      const maxOrders = Math.max(...orders);
-      const peakIndex = orders.indexOf(maxOrders);
-      const peakDay = labels[peakIndex];
-
-      // 🔥 UPDATE CARDS UI
-      document.getElementById("avgTemp").innerText =
-        avgTemp.toFixed(1) + " °C";
-
-      document.getElementById("totalOrders").innerText =
-        totalOrders;
-
-      document.getElementById("peakDay").innerText =
-        peakDay;
-
-      // 🔥 DRAW CHART
-      const ctx = document.getElementById("lineChart").getContext("2d");
+      // chart
+      const ctx = document.getElementById("lineChart");
 
       if (chart) chart.destroy();
 
@@ -67,46 +55,11 @@ document.addEventListener("DOMContentLoaded", function () {
         data: {
           labels: labels,
           datasets: [
-            {
-              label: "Temperature (°C)",
-              data: temperature,
-              borderColor: "#00c6ff",
-              backgroundColor: "rgba(0,198,255,0.2)",
-              tension: 0.4,
-              fill: true
-            },
-            {
-              label: "Food Orders",
-              data: orders,
-              borderColor: "#ff6a00",
-              backgroundColor: "rgba(255,106,0,0.2)",
-              tension: 0.4,
-              fill: true
-            }
+            { label: "Temp", data: temperature },
+            { label: "Orders", data: orders }
           ]
-        },
-        options: {
-          plugins: {
-            title: {
-              display: true,
-              text: "Live Weather vs Food Orders",
-              color: "white"
-            },
-            legend: {
-              labels: { color: "white" }
-            }
-          },
-          scales: {
-            x: { ticks: { color: "white" } },
-            y: { ticks: { color: "white" } }
-          }
         }
       });
 
-    } catch (error) {
-      console.error(error);
-      alert("Error fetching weather!");
-    }
-  };
-
-});
+    });
+}
