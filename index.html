@@ -1,16 +1,23 @@
-<div style="text-align:center;">
-  <div class="card">
-    <h2>🌡 Avg Temp</h2>
-    <p id="avgTemp">--</p>
+<body>
+
+  <h1>🌦 Weather Dashboard</h1>
+
+  <!-- 🔥 INPUT + BUTTON -->
+  <input type="text" id="cityInput" placeholder="Enter city">
+  <button onclick="getWeather()">Search</button>
+
+  <!-- 🔥 CARDS -->
+  <div>
+    <p>🌡 Avg Temp: <span id="avgTemp">--</span></p>
+    <p>📦 Total Orders: <span id="totalOrders">--</span></p>
+    <p>📈 Peak Day: <span id="peakDay">--</span></p>
   </div>
 
-  <div class="card">
-    <h2>📦 Total Orders</h2>
-    <p id="totalOrders">--</p>
-  </div>
+  <!-- 🔥 CHART -->
+  <canvas id="lineChart"></canvas>
 
-  <div class="card">
-    <h2>📈 Peak Day</h2>
-    <p id="peakDay">--</p>
-  </div>
-</div>
+  <!-- 🔥 SCRIPTS (VERY IMPORTANT ORDER) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+
+</body>
