@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-  const apiKey = "ac6be3a022e13acb366eca3e6e898b5f"; 
+  const apiKey = "095ac742e60846f5ff0f1fdb14a6a356"; 
 
   window.getWeather = async function () {
 
