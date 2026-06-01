@@ -3,7 +3,7 @@ const apiKey = "095ac742e60846f5ff0f1fdb14a6a356";
 
 let chart;
 
-function getWeather() {
+window.getWeather = function() {
 
   const city = document.getElementById("cityInput").value.trim();
 
