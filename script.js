@@ -1,36 +1,61 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-  const apiKey = "ac6be3a022e13acb366eca3e6e898b5f";
-  const city = "Chennai";
+  const apiKey = "ac6be3a022e13acb366eca3e6e898b5f"; 
 
-  async function fetchWeather() {
-    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+  window.getWeather = async function () {
 
-    const response = await fetch(url);
-    const data = await response.json();
+    const city = document.getElementById("cityInput").value;
 
-    const labels = [];
-    const temperature = [];
-    const orders = [];
-
-    // take first 5 data points
-    for (let i = 0; i < 5; i++) {
-      const item = data.list[i];
-
-      labels.push(item.dt_txt.split(" ")[0]);
-      temperature.push(item.main.temp);
-
-      // fake order logic based on temp
-      orders.push(Math.floor(item.main.temp * 5 + Math.random() * 50));
+    if (!city) {
+      alert("Please enter a city name!");
+      return;
     }
 
-    createChart(labels, temperature, orders);
-  }
+    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
 
-  function createChart(labels, temperature, orders) {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.cod !== "200") {
+        alert("City not found!");
+        return;
+      }
+
+      const labels = [];
+      const temperature = [];
+      const orders = [];
+
+      for (let i = 0; i < 5; i++) {
+        const item = data.list[i];
+
+        labels.push(item.dt_txt.split(" ")[0]);
+        temperature.push(item.main.temp);
+
+        // smart order logic
+        orders.push(Math.floor(item.main.temp * 5 + Math.random() * 50));
+      }
+
+      drawChart(labels, temperature, orders);
+
+    } catch (error) {
+      alert("Error fetching data!");
+      console.log(error);
+    }
+  };
+
+  let chart; // store chart instance
+
+  function drawChart(labels, temperature, orders) {
+
     const ctx = document.getElementById("lineChart").getContext("2d");
 
-    new Chart(ctx, {
+    // destroy old chart before creating new one
+    if (chart) {
+      chart.destroy();
+    }
+
+    chart = new Chart(ctx, {
       type: "line",
       data: {
         labels: labels,
@@ -61,9 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
             color: "white"
           },
           legend: {
-            labels: {
-              color: "white"
-            }
+            labels: { color: "white" }
           }
         },
         scales: {
@@ -73,7 +96,5 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
-  fetchWeather();
 
 });
