@@ -12,7 +12,7 @@ This project visualizes the relationship between weather conditions and food ord
 - HTML
 - CSS
 - JavaScript
-- Chart.js
+
 
 ## 📊 Use Case
 Helps businesses understand how weather impacts customer behavior.
