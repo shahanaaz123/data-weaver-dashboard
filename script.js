@@ -5,8 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
 let chart;
 
 function getWeather() {
-
-  const city = document.getElementById("cityInput").value;
+const city = document.getElementById("cityInput").value.trim();
 
   if (!city) {
     alert("Enter city");
